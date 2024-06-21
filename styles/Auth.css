@@ -1,0 +1,8 @@
+@tailwind base;
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles specific to the Auth page */
+.full-screen-center{
+  @apply flex flex-col items-center justify-center h-screen w-screen bg-auth_grey ;
+}

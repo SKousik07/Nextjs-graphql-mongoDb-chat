@@ -1,12 +1,12 @@
+import "../../styles/Auth.css"
 export default function AuthLayout({
     children, 
   }: {
     children: React.ReactNode
   }) {
     return (
-      <section>
-        Auth
+      <main className="full-screen-center">
         {children}
-      </section>
+      </main>
     )
   }
