@@ -3,7 +3,7 @@ import { ApolloServer } from "@apollo/server";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 connect()
@@ -15,7 +15,7 @@ const server = new ApolloServer({
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server, {
     context:  async ( req, res) => {
-        const token = req.cookies.get('token') || ''
+        const token = await req.cookies.get('token') || ''
         let user = null;
         console.log("token",token)
         if (token) {
@@ -26,14 +26,17 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
             console.error('Invalid token', error);
           }
         }
-    
-        return { req, res, user };
+        console.log("res",res)
+        return { req: req , res: res, user: user };
       },
   });
 
   export async function GET(request: NextRequest) {
-    return handler(request);
+    const hand = handler(request)
+    console.log("handresp_GET",hand)
   }
   export async function POST(request: NextRequest) {
-    return handler(request);
+    const hand = await handler(request)
+    console.log("handresp_POST",hand)
+    return hand;
   }

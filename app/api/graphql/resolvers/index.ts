@@ -18,7 +18,7 @@ for (const resolver of myResolvers) {
 
 const resolvers = {
     Query: queries,
-    //Mutation: mutations
+    Mutation: mutations
 }
 
 export default resolvers

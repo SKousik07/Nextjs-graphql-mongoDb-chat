@@ -1,6 +1,8 @@
 "use client"
 
-import { useQuery } from "@apollo/client";
+import { SIGNUP } from "@/constants";
+import { useMutation } from "@apollo/client";
+import { Telemetry } from "next/dist/telemetry/storage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,6 +13,7 @@ export const Signup = () => {
     email: '',
     password: ''
   })
+  const [signup, { data, loading, error }] = useMutation(SIGNUP);
 
   const handleClick = (route:string) => {
     router.push(route)
@@ -20,9 +23,25 @@ export const Signup = () => {
     setUser({...user, [e.target.name]:e.target.value})
   }
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault()
     console.log("signup-user", user)
+    try {
+      const response = await signup({
+        variables: {
+          email: user.email,
+          password: user.password,
+          username: user.username
+        }
+      })
+      console.log("signup response", response)
+      if(response.data?.signup?.user){
+        router.push("/login")
+        setUser({...user, username: '', email: '', password: ''})
+      } 
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div className="flex flex-col h-[100%] w-[100%] items-center justify-center rounded-[10px] shadow-md shadow-gray-700

@@ -1,12 +1,12 @@
 "use client"
 
 import { LOGIN } from "@/constants";
-import { useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const Login = () => {
- const { loading, error, data } = useQuery(LOGIN)
+ const [login, { data, loading, error }] = useMutation(LOGIN)
  const [user,setUser] = useState({
   email: '',
   password: ''
@@ -21,9 +21,16 @@ export const Login = () => {
     setUser({...user, [e.target.name]:e.target.value})
   }
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault()
     console.log("login-user", user)
+    const response = await login({
+      variables: {
+        email: user.email,
+        password: user.password
+      }
+    })
+    console.log("login response", response)
   }
   return (
     <div className="flex flex-col h-[100%] w-[100%] items-center justify-center rounded-[10px] shadow-md shadow-gray-700
