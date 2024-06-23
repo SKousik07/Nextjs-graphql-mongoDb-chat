@@ -34,11 +34,13 @@ export const Signup = () => {
           username: user.username
         }
       })
-      console.log("signup response", response)
-      if(response.data?.signup?.user){
+      if(response.data?.signup?.success){
         router.push("/login")
         setUser({...user, username: '', email: '', password: ''})
       } 
+      else{
+        console.log("error",response.data?.signup?.message)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -61,7 +63,7 @@ export const Signup = () => {
             <input name="username" onChange={(e)=>handleChange(e)} value={user.username} type="text" className="px-4 p-2 mb-4 outline-none border-2 border-gray-500 rounded-[30px]" placeholder="Username"/>
             <input name="email" onChange={(e)=>handleChange(e)} value={user.email} type="email" className="px-4 p-2 mb-4 outline-none border-2 border-gray-500 rounded-[30px]" placeholder="Email"/>
             <input name="password" onChange={(e)=>handleChange(e)} value={user.password} type="password" className="px-4 p-2 mb-4 outline-none border-2 border-gray-500 rounded-[30px]" placeholder="Password"/>
-            <button className="border-2 border-white px-4 py-2 mb-2 rounded-[30px] mt-2 font-bold w-full bg-secondary-dark text-white hover:bg-secondary-light" >
+            <button className="border-2 border-white px-4 py-2 mb-2 rounded-[30px] mt-2 font-bold w-full bg-secondary-dark text-white hover:bg-secondary-light  disabled:pointer-events-none disabled:opacity-50"  disabled={ user.email === '' || user.password === '' || user.username === ''}>
               Signup
             </button>
           </form>       

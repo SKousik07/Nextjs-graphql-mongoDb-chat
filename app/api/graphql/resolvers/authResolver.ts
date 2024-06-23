@@ -27,12 +27,12 @@ const authResolver = {
                 console.log("savedUser",savedUser);
                 return {
                     message: "User created successfully",
-                    success: true,
-                    user: savedUser
+                    success: true
                 }
             } catch (error:any) {
                 return {
-                    message: error.message
+                    message: error.message,
+                    success: false
                 }
             }
         },
@@ -59,23 +59,16 @@ const authResolver = {
                 }
                 const token = await createToken(tokenData)
 
-                // res.cookie(
-                //     'token',
-                //     token,
-                //     {
-                //         httpOnly: true,
-                //         secure: process.env.NODE_ENV !== 'development'
-                //     }
-                // )
                 return {
                     message: "Login successful",
+                    token: token,
                     success: true,
-                    user: existingUser
                 }
                 
             } catch (error:any) {
                 return {
-                    message: error.message
+                    message: error.message,
+                    success: false
                 }
             }
         }

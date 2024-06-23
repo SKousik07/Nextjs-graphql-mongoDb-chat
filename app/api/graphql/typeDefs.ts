@@ -12,8 +12,9 @@ const typeDefs  = gql `
 
     type authResponse {
         message: String!
-        success: Boolean
+        success: Boolean!
         user: User
+        token: String
     }
 
     type User {
