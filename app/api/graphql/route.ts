@@ -4,6 +4,7 @@ import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { NextRequest, NextResponse } from "next/server";
+import { verifyToken } from "./services/authService";
 
 
 connect()
@@ -15,18 +16,17 @@ const server = new ApolloServer({
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server, {
     context:  async ( req, res) => {
-        const token = await req.cookies.get('token') || ''
+        const authToken = req.headers.get("authorization") || '';
         let user = null;
-        console.log("token",token)
-        if (token) {
+        console.log("authToken",authToken)
+        if (authToken) {
           try {
-            //verify token and get user
-           console.log("token",token)
+           user = verifyToken(authToken.replace('Bearer ', ''));
+           console.log("userFromToken",user)
           } catch (error) {
             console.error('Invalid token', error);
           }
         }
-        console.log("res",res)
         return { req: req , res: res, user: user };
       },
   });

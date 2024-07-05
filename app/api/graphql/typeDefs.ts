@@ -2,7 +2,8 @@ import { gql } from "@apollo/client";
 
 const typeDefs  = gql `
     type Query {
-        user: String
+        user(id: ID): User
+        users: usersResponse
     }
 
     type Mutation {
@@ -17,10 +18,16 @@ const typeDefs  = gql `
         token: String
     }
 
+    type usersResponse {
+        error: String
+        users: [User]
+    }
+
     type User {
         id: ID!
         username: String
         email: String!
+        error: String
     }
 `
 

@@ -8,8 +8,6 @@ export const LOGIN = gql`
       token
       user {
         id
-        username
-        email
       }
     }
   }
@@ -29,3 +27,24 @@ export const SIGNUP = gql`
   }
 `;
 
+export const GET_USER = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      id
+      username
+      email
+    }
+  }
+`;
+
+export const GET_USERS = gql `
+query Users{
+  users {
+    users { 
+      id
+      username
+      email
+    }
+    error
+  }
+}`

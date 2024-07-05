@@ -16,4 +16,8 @@ const createToken = async (tokenData : any) => {
         {expiresIn: "1d"})
 }
 
-export { hashPassword, validatePassword, createToken}
+const verifyToken = async (token: string) => {
+    return await jwt.verify(token, process.env.TOKEN_SECRET!)
+}
+
+export { hashPassword, validatePassword, createToken,verifyToken}

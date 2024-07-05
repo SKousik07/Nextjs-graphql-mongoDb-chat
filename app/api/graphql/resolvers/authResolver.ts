@@ -1,10 +1,44 @@
 import { createToken, hashPassword, validatePassword } from "../services/authService"
-import { createUser, findUserByEmail } from "../services/userService"
+import { createUser, findUserByEmail, findUserById, findUsers } from "../services/userService"
 
 const authResolver = { 
     Query: {
-        user : () => {
-            return "Hello, user!"
+        user : async (root: any, { id }: any, context: any) => {
+            try {
+                if(!context.user){
+                    throw new Error("Unauthorized user")
+                }
+                const user = await findUserById(id)
+                console.log("fetcheduser",user)
+                if(!user){
+                    throw new Error("User not found")
+                }
+                return user
+            } catch (error:any) {
+                return {
+                    error: error.message,
+                }
+            }
+        },
+
+        users: async (root: any, args: any, context: any) => {
+            try {
+                if(!context.user){
+                    throw new Error("Unauthorized user")
+                }
+                const users = await findUsers()
+                if(!users){
+                    throw new Error("Users not found")
+                }
+                console.log("users",users)
+                return {
+                    users
+                }
+            } catch (error: any) {
+                return {
+                    error: error.message,
+                }
+            }
         }
     },
     Mutation: {
@@ -39,7 +73,7 @@ const authResolver = {
 
         login : async (root:any, { email, password }: any, context: any) => {
             try {
-                console.log("context",context)
+                console.log("context-log",context)
                 //check user exists or not
                 const existingUser = await findUserByEmail(email)
                 if(!existingUser){

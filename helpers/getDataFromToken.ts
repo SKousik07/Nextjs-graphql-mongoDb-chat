@@ -7,7 +7,7 @@ const getDataFromToken = (token: string) => {
         return decodedToken
     }
     catch (error) {
-        console.log(error)
+        console.log("Token verification failed",error)
     }
 }
 
