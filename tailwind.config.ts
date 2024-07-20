@@ -9,6 +9,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        mono: ['Roboto Mono', 'monospace'],
+      },
+      fontStyle: {
+        italic: 'italic', 
+        normal: 'normal',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

@@ -48,3 +48,63 @@ query Users{
     error
   }
 }`
+
+export const GET_OTHER_USERS = gql `
+query OtherUsers($id: ID!){
+  otherUsers(id: $id) {
+    users { 
+      id
+      username
+      email
+    }
+    error
+  }
+}`
+
+export const GET_GROUP = gql `
+query getGroup($combinedId: String!){
+  getGroup(combinedId: $combinedId) {
+    combinedId
+    messages {
+      id
+      content 
+      type
+      timestamp
+      from {
+        id
+        username
+      }
+    }
+  }
+}`
+
+export const ADD_MESSAGE = gql `
+mutation addMessage($content: String!, $combinedId: String!, $userId: ID!, $type: String) {
+  addMessage(content: $content, combinedId: $combinedId, userId: $userId, type: $type) {
+    combinedId
+    messages {
+      id
+      content 
+      type
+      timestamp
+    }
+  }
+}`
+
+export const GROUP_UPDATED = gql`
+  subscription groupUpdated($combinedId: String!) {
+    groupUpdated(combinedId: $combinedId) {
+      combinedId
+      messages {
+        id
+        content 
+        type
+        timestamp
+        from {
+          id
+          username
+        }
+      }
+    }
+  }
+`;

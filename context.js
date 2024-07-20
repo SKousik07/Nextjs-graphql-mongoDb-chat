@@ -5,7 +5,8 @@ import { useQuery } from "@apollo/client";
 import { GET_USER } from "@/constants";
 
 const initialState = {
-  user: null
+  user: null,
+  selectedUser: null
 };
 
 
@@ -24,6 +25,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         user: null
+      };
+    case 'SELECTED_USER':
+      console.log("SELECTED_USER")
+      return {
+        ...state,
+        selectedUser: action.payload
       };
     default:
       return state;

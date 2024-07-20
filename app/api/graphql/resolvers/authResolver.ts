@@ -1,5 +1,5 @@
 import { createToken, hashPassword, validatePassword } from "../services/authService"
-import { createUser, findUserByEmail, findUserById, findUsers } from "../services/userService"
+import { createUser, findOtherUsers, findUserByEmail, findUserById, findUsers } from "../services/userService"
 
 const authResolver = { 
     Query: {
@@ -39,7 +39,29 @@ const authResolver = {
                     error: error.message,
                 }
             }
-        }
+        },
+
+        otherUsers: async (root: any, {id}: any, context: any) => {
+            try {
+                if(!context.user){
+                    throw new Error("Unauthorized user")
+                }
+                const users = await findOtherUsers(id)
+                if(!users){
+                    throw new Error("Users not found")
+                }
+                console.log("otherusers",id,users)
+                return {
+                    users
+                }
+            } catch (error: any) {
+                return {
+                    error: error.message,
+                }
+            }
+        },
+
+
     },
     Mutation: {
         signup : async (root: any, { email, password, username }: any, context: any) => {

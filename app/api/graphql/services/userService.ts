@@ -18,10 +18,15 @@ const findUsers =  async () => {
     return await User.find()
 }
 
+const findOtherUsers =  async (userId: string) => {
+    console.log("userId",userId)
+    return await User.find({ _id: { $ne: userId } })
+}
 
 export { 
     findUserByEmail,
     findUserById,
     createUser,
-    findUsers
+    findUsers,
+    findOtherUsers
 }

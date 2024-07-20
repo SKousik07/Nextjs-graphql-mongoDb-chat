@@ -54,7 +54,7 @@ export default function Home() {
     state.user ? (
       <main className="flex w-[100%] h-[100%] items-center justify-center">
         <SideBarContainer/>
-        <MainContainer/>
+        <MainContainer user={state?.user} selectedUser={state?.selectedUser}/>
       </main>
     )
     :
