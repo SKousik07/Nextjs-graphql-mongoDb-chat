@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Loader from "@/components/common/Loader";
 import { SIGNUP } from "@/constants";
@@ -8,69 +8,107 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const Signup = () => {
-  const router = useRouter()
-  const [user,setUser] = useState({
-    username: '',
-    email: '',
-    password: ''
-  })
+  const router = useRouter();
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [signup, { data, loading, error }] = useMutation(SIGNUP);
 
-  const handleClick = (route:string) => {
-    router.push(route)
-  }
+  const handleClick = (route: string) => {
+    router.push(route);
+  };
 
-  const handleChange = (e:any) => {
-    setUser({...user, [e.target.name]:e.target.value})
-  }
+  const handleChange = (e: any) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = async (e:any) => {
-    e.preventDefault()
-    console.log("signup-user", user)
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     try {
       const response = await signup({
         variables: {
           email: user.email,
           password: user.password,
-          username: user.username
-        }
-      })
-      if(response.data?.signup?.success){
-        router.push("/login")
-        setUser({...user, username: '', email: '', password: ''})
-      } 
-      else{
-        console.log("error",response.data?.signup?.message)
+          username: user.username,
+        },
+      });
+      if (response.data?.signup?.success) {
+        router.push("/login");
+        setUser({ ...user, username: "", email: "", password: "" });
+      } else {
+        console.log("error", response.data?.signup?.message);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
-    <div className="flex flex-col h-[100%] w-[100%] items-center justify-center rounded-[10px] shadow-md shadow-gray-700
-                    sm:flex-row sm:h-[70%] sm:w-[80%]" >
-      <div className="w-[100%] h-[100%] bg-tertiary-dark rounded-l-none flex flex-col items-center justify-center text-white
-                      sm:w-[50%] sm:rounded-l-[10px]">
-          <h1 className="text-3xl font-bold">Hello, Friend!</h1>
-          <p className="m-4 text-center">If you are already a member? let's Login now</p>
-          <button onClick={()=> handleClick('/login')} className="border-2 border-white px-4 py-1 rounded-[30px] mt-2 text-md font-bold hover:bg-white hover:text-tertiary-dark hover:border-tertiary-dark " >
-            LOGIN
-          </button>
+    <div
+      className="flex flex-col h-[100%] w-[100%] items-center justify-center rounded-[10px] shadow-md shadow-gray-700
+                    sm:flex-row sm:h-[70%] sm:w-[80%]"
+    >
+      <div
+        className="w-[100%] h-[100%] bg-tertiary-dark rounded-l-none flex flex-col items-center justify-center text-white
+                      sm:w-[50%] sm:rounded-l-[10px]"
+      >
+        <h1 className="text-3xl font-bold">Hello, Friend!</h1>
+        <p className="m-4 text-center">
+          If you are already a member? let's Login now
+        </p>
+        <button
+          onClick={() => handleClick("/login")}
+          className="border-2 border-white px-4 py-1 rounded-[30px] mt-2 text-md font-bold hover:bg-white hover:text-tertiary-dark hover:border-tertiary-dark "
+        >
+          LOGIN
+        </button>
       </div>
-      <div className="w-[100%] h-[100%] bg-white rounded-r-none flex flex-col items-center justify-center text-black 
-                     sm:w-[50%] sm:rounded-r-[10px] ">
-          <h1 className="text-3xl font-bold mb-6 mt-3">Sign Up</h1>
-          <form className="flex flex-col items-center justify-center" onSubmit={handleSubmit}>
-            <input name="username" onChange={(e)=>handleChange(e)} value={user.username} type="text" className="px-4 p-2 mb-4 w-full outline-none rounded-[10px] bg-gray-100" placeholder="Username"/>
-            <input name="email" onChange={(e)=>handleChange(e)} value={user.email} type="email" className="px-4 p-2 mb-4 w-full outline-none rounded-[10px] bg-gray-100" placeholder="Email"/>
-            <input name="password" onChange={(e)=>handleChange(e)} value={user.password} type="password" className="px-4 p-2 mb-4 w-full outline-none rounded-[10px] bg-gray-100" placeholder="Password"/>
-            <button className="border-2 border-white px-4 py-2 mb-2 rounded-[30px] mt-2 font-bold w-full bg-tertiary-dark text-white hover:opacity-80   disabled:pointer-events-none disabled:opacity-50"  disabled={ user.email === '' || user.password === '' || user.username === ''}>
-              { !loading ? "SIGNUP" : <Loader/>}
-            </button>
-          </form>       
+      <div
+        className="w-[100%] h-[100%] bg-white rounded-r-none flex flex-col items-center justify-center text-black 
+                     sm:w-[50%] sm:rounded-r-[10px] "
+      >
+        <h1 className="text-3xl font-bold mb-6 mt-3">Sign Up</h1>
+        <form
+          className="flex flex-col items-center justify-center"
+          onSubmit={handleSubmit}
+        >
+          <input
+            name="username"
+            onChange={(e) => handleChange(e)}
+            value={user.username}
+            type="text"
+            className="px-4 p-2 mb-4 w-full outline-none rounded-[10px] bg-gray-100"
+            placeholder="Username"
+          />
+          <input
+            name="email"
+            onChange={(e) => handleChange(e)}
+            value={user.email}
+            type="email"
+            className="px-4 p-2 mb-4 w-full outline-none rounded-[10px] bg-gray-100"
+            placeholder="Email"
+          />
+          <input
+            name="password"
+            onChange={(e) => handleChange(e)}
+            value={user.password}
+            type="password"
+            className="px-4 p-2 mb-4 w-full outline-none rounded-[10px] bg-gray-100"
+            placeholder="Password"
+          />
+          <button
+            className="border-2 border-white px-4 py-2 mb-2 rounded-[30px] mt-2 font-bold w-full bg-tertiary-dark text-white hover:opacity-80   disabled:pointer-events-none disabled:opacity-50"
+            disabled={
+              user.email === "" || user.password === "" || user.username === ""
+            }
+          >
+            {!loading ? "SIGNUP" : <Loader />}
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Signup
+export default Signup;

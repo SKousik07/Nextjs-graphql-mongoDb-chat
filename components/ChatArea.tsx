@@ -12,13 +12,12 @@ const ChatArea = ({ messageList }: any) => {
     if (messageList.length > 0) scrollToBottom();
   }, [messageList]); // Scrolls to the bottom whenever messages change
 
-  console.log("messageList", messageList);
   return (
     <div className="custom-scrollbar2 w-[100%] h-[100%] flex flex-col items-center text-black">
       {messageList &&
         messageList.length > 0 &&
         messageList.map((msg: any) => {
-          return <MessageBox message={msg} />;
+          return <MessageBox message={msg} key={msg.id} />;
         })}
       <div ref={messagesEndRef} />
     </div>

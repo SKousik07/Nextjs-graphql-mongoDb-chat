@@ -17,11 +17,6 @@ export default function Home() {
   const token = sessionStorage.getItem("auth-token");
 
   const userData: any = token ? getDataFromToken(token) : null;
-  // const { data, loading, error } = useSubscription(MESSAGE_SENT_SUBSCRIPTION);
-  // const { data: qdata } = useQuery(HELLO);
-
-  console.log("page.tsx renders-----");
-
   const { data, loading, error } = useQuery(GET_USER, {
     variables: {
       id: userData ? userData?.id : "",
@@ -37,7 +32,6 @@ export default function Home() {
   }, [token, router]);
 
   useEffect(() => {
-    console.log("login payload", data);
     if (data && data.user.username) {
       dispatch({
         type: "LOGIN",
@@ -52,22 +46,10 @@ export default function Home() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("auth-token");
-    console.log("state-changed", state);
     if (!state.user && !token) {
       router.push("/login");
     }
   }, [state]);
-
-  // useEffect(() => {
-  //   console.log("data------", data);
-  // }, [data]);
-
-  // useEffect(() => {
-  //   console.log("querydata------", qdata);
-  // }, [qdata]);
-
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error.message}</p>;
 
   return state.user ? (
     <main className="flex w-[100%] h-[100%] items-center justify-center">

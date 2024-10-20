@@ -14,20 +14,17 @@ const reducer = (state, action) => {
  
   switch (action.type) {
     case 'LOGIN':
-      console.log("hi from context")
       return {
         ...state,
         user: action.payload
       };
     case 'LOGOUT':
-      console.log("logout")
       removeSessionToken()
       return {
         ...state,
         user: null
       };
     case 'SELECTED_USER':
-      console.log("SELECTED_USER")
       return {
         ...state,
         selectedUser: action.payload

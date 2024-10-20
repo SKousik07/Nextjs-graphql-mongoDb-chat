@@ -16,7 +16,6 @@ import { createClient } from "graphql-ws";
 const errorLink = onError(({ networkError, graphQLErrors }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
-      console.log(locations);
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       );
@@ -49,7 +48,6 @@ const wsLink = new GraphQLWsLink(
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
-    console.log("definition", definition);
     return (
       definition.kind === "OperationDefinition" &&
       definition.operation === "subscription"

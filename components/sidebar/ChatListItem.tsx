@@ -12,10 +12,6 @@ const ChatListItem = ({
   click: any;
   isSelected: boolean;
 }) => {
-  useEffect(() => {
-    console.log("$$$4su", selectedUser);
-  }, [selectedUser]);
-
   return (
     <div
       onClick={click}

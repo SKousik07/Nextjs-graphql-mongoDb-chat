@@ -49,7 +49,6 @@ const MainContainer = ({
   });
 
   useEffect(() => {
-    console.log("combbbbbbb", selectedUser);
     if (selectedUser) {
       if (selectedUser.id < user.id)
         setCombinedId(`${selectedUser?.id}-${user?.id}`);
@@ -58,25 +57,19 @@ const MainContainer = ({
   }, [selectedUser, user]);
 
   useEffect(() => {
-    console.log("dataQuery", dataQuery);
     if (dataQuery?.getGroup.messages) {
-      console.log("messages", dataQuery?.getGroup.messages);
       setMessageList(dataQuery?.getGroup.messages);
     }
   }, [dataQuery]);
 
   useEffect(() => {
-    console.log("dataSubscription", dataSubscription);
     if (dataSubscription?.groupUpdated.messages) {
-      console.log("messages", dataSubscription?.groupUpdated.messages);
       setMessageList(dataSubscription?.groupUpdated.messages);
       //client.refetchQueries({ include: [GET_USER, GET_OTHER_USERS] });
     }
   }, [dataSubscription, client]);
 
   const handleMessage = async (message: string) => {
-    console.log("message", message);
-    console.log("combinedId", combinedId);
     const response = await addMessage({
       variables: {
         combinedId,
@@ -85,7 +78,6 @@ const MainContainer = ({
         type: "text",
       },
     });
-    console.log("ADD_MESSAGE", response);
   };
 
   if (errorSubscription) return <p>Error: {errorSubscription.message}</p>;

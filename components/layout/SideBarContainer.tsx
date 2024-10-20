@@ -19,7 +19,6 @@ const SideBarContainer = () => {
   const [filteredUserList, setfilteredUserList] = useState([]);
 
   const handleSearch = (searchText: string) => {
-    console.log("searchInput from search comp", searchText);
     if (searchText === "" && data?.otherUsers)
       setfilteredUserList(data?.otherUsers?.users);
     else {
@@ -43,16 +42,10 @@ const SideBarContainer = () => {
 
   useEffect(() => {
     if (data) {
-      console.log("users-data", data);
       const otherUsers = data.otherUsers?.users;
-      console.log("otherUsers", otherUsers, checkNoNull(otherUsers));
       if (checkNoNull(otherUsers)) setfilteredUserList(otherUsers);
     }
   }, [data]);
-
-  useEffect(() => {
-    console.log("state-jhhgcvgbc", state);
-  }, [state]);
 
   return (
     <section className="w-[30%] h-screen bg-primary-dark">
