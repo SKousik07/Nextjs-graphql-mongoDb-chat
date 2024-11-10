@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const Login = () => {
+const Login = () => {
   const [login, { data, loading, error }] = useMutation(LOGIN);
   const [user, setUser] = useState({
     email: "",

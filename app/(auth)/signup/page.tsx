@@ -7,7 +7,7 @@ import { Telemetry } from "next/dist/telemetry/storage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const Signup = () => {
+const Signup = () => {
   const router = useRouter();
   const [user, setUser] = useState({
     username: "",
