@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@/context";
 import ChatListItem from "../sidebar/ChatListItem";
 import "./sidebar.css";
-const SideBarContainer = () => {
+const SideBarContainer = ({ onLogOut }: { onLogOut: any }) => {
   const { state, dispatch } = useUser();
   const { data, loading, error } = useQuery(GET_OTHER_USERS, {
     variables: {
@@ -49,7 +49,7 @@ const SideBarContainer = () => {
 
   return (
     <section className="w-[30%] h-screen bg-primary-dark">
-      <SideBarHeader />
+      <SideBarHeader onLogOut={onLogOut} />
       <div className="flex items-center justify-center w-[100%] h-[80px] bg-primary-dark text-white border-b-2 border-r-2 border-secondary-dark">
         <SearchInput onSearch={handleSearch} />
       </div>

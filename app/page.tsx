@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import getDataFromToken from "@/helpers/getDataFromToken";
 import SideBarContainer from "@/components/layout/SideBarContainer";
@@ -14,7 +14,14 @@ import { MESSAGE_SENT_SUBSCRIPTION } from "@/constants";
 export default function Home() {
   const router = useRouter();
   const { state, dispatch } = useUser();
-  const token = sessionStorage.getItem("auth-token");
+  const [token, setToken] = useState<string | null>(null);
+  const [isTokenLoaded, setIsTokenLoaded] = useState(false);
+
+  useEffect(() => {
+    const authToken = sessionStorage.getItem("auth-token");
+    setToken(authToken);
+    setIsTokenLoaded(true);
+  }, [router]);
 
   const userData: any = token ? getDataFromToken(token) : null;
   const { data, loading, error } = useQuery(GET_USER, {
@@ -24,12 +31,6 @@ export default function Home() {
     skip: !userData,
     fetchPolicy: "network-only",
   });
-
-  useEffect(() => {
-    if (!token) {
-      router.push("/login");
-    }
-  }, [token, router]);
 
   useEffect(() => {
     if (data && data.user.username) {
@@ -44,16 +45,21 @@ export default function Home() {
     }
   }, [data]);
 
+  const handleLogout = () => {
+    // sessionStorage.removeItem("auth-token");
+    setToken(null);
+    dispatch({ type: "LOGOUT" });
+  };
+
   useEffect(() => {
-    const token = sessionStorage.getItem("auth-token");
-    if (!state.user && !token) {
+    if (isTokenLoaded && !token) {
       router.push("/login");
     }
-  }, [state]);
+  }, [isTokenLoaded, token, router]);
 
   return state.user ? (
     <main className="flex w-[100%] h-[100%] items-center justify-center">
-      <SideBarContainer />
+      <SideBarContainer onLogOut={handleLogout} />
       <MainContainer user={state?.user} selectedUser={state?.selectedUser} />
     </main>
   ) : (
